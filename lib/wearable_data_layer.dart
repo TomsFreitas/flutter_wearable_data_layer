@@ -40,9 +40,9 @@ typedef Widget WearableReceiverBuilder(
 
 class WearableReceiverWidget extends StatefulWidget {
   final WearableReceiverBuilder builder;
-  final Function onReceived;
+  final Function? onReceived;
 
-  WearableReceiverWidget({Key key, @required this.builder, this.onReceived})
+  WearableReceiverWidget({Key? key, required this.builder, this.onReceived})
       : assert(builder != null),
         super(key: key);
 
@@ -59,9 +59,9 @@ class _WearableReceiverWidgetState extends State<WearableReceiverWidget> {
     channel.setMethodCallHandler((call) {
       if (call.method == 'receivedMessage') {
         setState(() => receivedMessage = call.arguments);
-        if (widget.onReceived != null) widget.onReceived(call.arguments);
+        if (widget.onReceived != null) widget.onReceived!(call.arguments);
       }
-    });
+    } as Future<dynamic> Function(MethodCall)?);
   }
 
   @override
